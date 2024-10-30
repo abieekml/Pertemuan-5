@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Task List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #taskApp {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        #taskInput {
+            width: calc(100% - 22px);
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #dcdfe6;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        #taskInput:focus {
+            border-color: #409eff;
+            box-shadow: 0 0 5px rgba(64, 158, 255, 0.3);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #409eff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #66b1ff;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+        li {
+            background-color: #f9fafb;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e4e7ed;
+            transition: background-color 0.2s ease;
+        }
+        li:hover {
+            background-color: #eef1f6;
+        }
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .edit, .delete {
+            background-color: #fff;
+            border: 1px solid #dcdfe6;
+            padding: 6px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .edit:hover {
+            color: #409eff;
+            background-color: #f0f9ff;
+            border-color: #b3d8ff;
+        }
+        .delete:hover {
+            color: #f56c6c;
+            background-color: #fef0f0;
+            border-color: #fbc4c4;
+        }
+        .icon {
+            font-size: 16px;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="taskApp">
+        <h1>Daftar Tugas Harian</h1>
+        <input type="text" id="taskInput" placeholder="Tambahkan tugas...">
+        <button onclick="addTask()">Tambah Tugas</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+
+            if (taskText === '') {
+                alert('Tugas tidak boleh kosong!');
+                return;
+            }
+
+            const taskList = document.getElementById('taskList');
+
+            const li = document.createElement('li');
+            const span = document.createElement('span');
+            span.textContent = taskText;
+            li.appendChild(span);
+
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'task-actions';
+
+            const editBtn = document.createElement('button');
+            editBtn.innerHTML = '<i class="fas fa-edit icon"></i>';
+            editBtn.className = 'edit';
+            editBtn.onclick = function() {
+                const newTaskText = prompt('Edit Tugas:', span.textContent);
+                if (newTaskText !== null && newTaskText.trim() !== '') {
+                    span.textContent = newTaskText.trim();
+                }
+            };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.innerHTML = '<i class="fas fa-trash-alt icon"></i>';
+            deleteBtn.className = 'delete';
+            deleteBtn.onclick = function() {
+                taskList.removeChild(li);
+            };
+
+            actionsDiv.appendChild(editBtn);
+            actionsDiv.appendChild(deleteBtn);
+            li.appendChild(actionsDiv);
+
+            taskList.appendChild(li);
+
+            taskInput.value = ''; // Clear input field
+        }
+    </script>
+</body>
+</html>
